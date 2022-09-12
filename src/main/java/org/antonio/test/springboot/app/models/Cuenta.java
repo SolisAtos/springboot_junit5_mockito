@@ -1,11 +1,17 @@
 package org.antonio.test.springboot.app.models;
 
 import java.math.BigDecimal;
+import javax.persistence.*;
 
 import org.antonio.test.springboot.app.exceptions.DineroInsuficienteException;
 
+@Entity
+@Table(name = "cuentas")
 public class Cuenta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String persona;
     private BigDecimal saldo;
 
