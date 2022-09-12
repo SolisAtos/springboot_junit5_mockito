@@ -23,21 +23,28 @@ import org.antonio.test.springboot.app.services.CuentaService;
 import org.antonio.test.springboot.app.services.CuentaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 class SpringbootTestApplicationTests {
 
+	@MockBean
 	CuentaRepository cuentaRepository;
+	@MockBean
 	BancoRepository bancoRepository;
 
+	@Autowired
 	CuentaService service;
 
 	@BeforeEach
 	void setUp() {
-		cuentaRepository = mock(CuentaRepository.class);
-		bancoRepository = mock(BancoRepository.class);
-		service = new CuentaServiceImpl(cuentaRepository, bancoRepository);
+		// cuentaRepository = mock(CuentaRepository.class);
+		// bancoRepository = mock(BancoRepository.class);
+		// service = new CuentaServiceImpl(cuentaRepository, bancoRepository);
 	}
 
 	@Test

@@ -6,7 +6,9 @@ import org.antonio.test.springboot.app.models.Banco;
 import org.antonio.test.springboot.app.models.Cuenta;
 import org.antonio.test.springboot.app.repositories.BancoRepository;
 import org.antonio.test.springboot.app.repositories.CuentaRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CuentaServiceImpl implements CuentaService {
     private CuentaRepository cuentaRepository;
     private BancoRepository bancoRepository;
