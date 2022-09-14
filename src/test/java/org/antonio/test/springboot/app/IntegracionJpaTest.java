@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -49,5 +50,48 @@ public class IntegracionJpaTest {
         List<Cuenta> cuentas = cuentaRepository.findAll();
         assertFalse(cuentas.isEmpty());
         assertEquals(2, cuentas.size());
+    }
+
+    @Test
+    void testSave() {
+        Cuenta cuentaPepe = new Cuenta(null, "Pepe", new BigDecimal("3000"));
+
+        Cuenta cuenta = cuentaRepository.save(cuentaPepe);
+        // Cuenta cuenta = cuentaRepository.findById(save.getId()).orElseThrow(null);
+
+        assertEquals("Pepe", cuenta.getPersona());
+        assertEquals("3000", cuenta.getSaldo().toPlainString());
+        // assertEquals(3, cuenta.getId());
+    }
+
+    @Test
+    void testUpdate() {
+        Cuenta cuentaPepe = new Cuenta(null, "Pepe", new BigDecimal("3000"));
+
+        Cuenta cuenta = cuentaRepository.save(cuentaPepe);
+        // Cuenta cuenta = cuentaRepository.findById(save.getId()).orElseThrow(null);
+
+        assertEquals("Pepe", cuenta.getPersona());
+        assertEquals("3000", cuenta.getSaldo().toPlainString());
+
+        cuenta.setSaldo(new BigDecimal("3800"));
+        Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
+
+        assertEquals("Pepe", cuenta.getPersona());
+        assertEquals("3800", cuenta.getSaldo().toPlainString());
+    }
+
+    @Test
+    void testDelete() {
+        Cuenta cuenta = cuentaRepository.findById(2L).orElseThrow(null);
+        assertEquals("John", cuenta.getPersona());
+
+        cuentaRepository.delete(cuenta);
+
+        assertThrows(NoSuchElementException.class, () -> {
+            cuentaRepository.findByPersona("John");
+        });
+
+        assertEquals(1, cuentaRepository.findAll().size());
     }
 }
