@@ -6,7 +6,6 @@ import org.antonio.test.springboot.app.models.Banco;
 import org.antonio.test.springboot.app.models.Cuenta;
 import org.antonio.test.springboot.app.repositories.BancoRepository;
 import org.antonio.test.springboot.app.repositories.CuentaRepository;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
