@@ -1,8 +1,8 @@
 package org.antonio.test.springboot.app.services;
 
-import java.math.BigDecimal;
-
 import org.antonio.test.springboot.app.models.Cuenta;
+
+import java.math.BigDecimal;
 
 public interface CuentaService {
     Cuenta findById(Long id);
@@ -11,5 +11,6 @@ public interface CuentaService {
 
     BigDecimal revisarSaldo(Long cuentaId);
 
-    void transferir(Long numCuentaOrigen, Long numCuentaDestino, BigDecimal monto, Long bancoId);
+    void transferir(Long numCuentaOrigen, Long numCuentaDestino, BigDecimal monto,
+                    Long bancoId);
 }

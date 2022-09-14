@@ -46,5 +46,4 @@ public class Banco {
     public void setTotalTransferencias(int totalTransferencias) {
         this.totalTransferencias = totalTransferencias;
     }
-
 }
