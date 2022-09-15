@@ -6,8 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.print.attribute.standard.Media;
 
 import org.antonio.test.springboot.app.models.Cuenta;
 import org.antonio.test.springboot.app.models.TransaccionDto;
@@ -93,6 +97,32 @@ public class CuentaControllerTestRestTemplateTest {
         assertEquals("Andrés", cuenta.getPersona());
         assertEquals("900.00", cuenta.getSaldo().toPlainString());
         assertEquals(new Cuenta(1L, "Andrés", new BigDecimal("900.00")), cuenta);
+    }
+
+    @Test
+    @Order(3)
+    void testListar2() throws JsonMappingException, JsonProcessingException {
+        ResponseEntity<Cuenta[]> respuesta = client.getForEntity(crearUri("/api/cuentas"), Cuenta[].class);
+        List<Cuenta> cuentas = Arrays.asList(respuesta.getBody());
+
+        assertEquals(HttpStatus.OK, respuesta.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, respuesta.getHeaders().getContentType());
+
+        assertEquals(2, cuentas.size());
+        assertEquals(1L, cuentas.get(0).getId());
+        assertEquals("Andrés", cuentas.get(0).getPersona());
+        assertEquals("900.00", cuentas.get(0).getSaldo().toPlainString());
+        assertEquals(2L, cuentas.get(1).getId());
+        assertEquals("John", cuentas.get(1).getPersona());
+        assertEquals("2100.00", cuentas.get(1).getSaldo().toPlainString());
+
+        JsonNode json = objectMapper.readTree(objectMapper.writeValueAsString(cuentas));
+        assertEquals(1L, json.get(0).path("id").asLong());
+        assertEquals("Andrés", json.get(0).path("persona").asText());
+        assertEquals(900, json.get(0).path("saldo").asLong());
+        assertEquals(2L, json.get(1).path("id").asLong());
+        assertEquals("John", json.get(1).path("persona").asText());
+        assertEquals(2100.0, json.get(1).path("saldo").asLong());
     }
 
     private String crearUri(String uri) {
