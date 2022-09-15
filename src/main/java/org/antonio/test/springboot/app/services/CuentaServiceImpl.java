@@ -60,14 +60,16 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Cuenta> findAll() {
         // TODO Auto-generated method stub
         return cuentaRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Cuenta save(Cuenta cuenta) {
         // TODO Auto-generated method stub
-        return null;
+        return cuentaRepository.save(cuenta);
     }
 }
