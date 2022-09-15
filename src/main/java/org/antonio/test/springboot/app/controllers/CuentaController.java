@@ -2,6 +2,7 @@ package org.antonio.test.springboot.app.controllers;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.antonio.test.springboot.app.models.Cuenta;
@@ -25,10 +26,22 @@ public class CuentaController {
     @Autowired
     private CuentaService cuentaService;
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Cuenta> listar() {
+        return cuentaService.findAll();
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Cuenta detalle(@PathVariable Long id) {
         return cuentaService.findById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cuenta guardar(@RequestBody Cuenta cuenta) {
+        return cuentaService.save(cuenta);
     }
 
     @PostMapping("/transferir")

@@ -20,6 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootTest
 class SpringbootTestApplicationTests {
@@ -35,12 +37,12 @@ class SpringbootTestApplicationTests {
 
 	@BeforeEach
 	void setUp() {
-//		cuentaRepository = mock(CuentaRepository.class);
-//		bancoRepository = mock(BancoRepository.class);
-//		service = new CuentaServiceImpl(cuentaRepository, bancoRepository);
-//		Datos.CUENTA_001.setSaldo(new BigDecimal("1000"));
-//		Datos.CUENTA_002.setSaldo(new BigDecimal("2000"));
-//		Datos.BANCO.setTotalTransferencias(0);
+		// cuentaRepository = mock(CuentaRepository.class);
+		// bancoRepository = mock(BancoRepository.class);
+		// service = new CuentaServiceImpl(cuentaRepository, bancoRepository);
+		// Datos.CUENTA_001.setSaldo(new BigDecimal("1000"));
+		// Datos.CUENTA_002.setSaldo(new BigDecimal("2000"));
+		// Datos.BANCO.setTotalTransferencias(0);
 	}
 
 	@Test
@@ -87,7 +89,7 @@ class SpringbootTestApplicationTests {
 		assertEquals("1000", saldoOrigen.toPlainString());
 		assertEquals("2000", saldoDestino.toPlainString());
 
-		assertThrows(DineroInsuficienteException.class, ()-> {
+		assertThrows(DineroInsuficienteException.class, () -> {
 			service.transferir(1L, 2L, new BigDecimal("1200"), 1L);
 		});
 
@@ -124,5 +126,19 @@ class SpringbootTestApplicationTests {
 		assertEquals("Andrés", cuenta2.getPersona());
 
 		verify(cuentaRepository, times(2)).findById(1L);
+	}
+
+	@Test
+	void testFindAll() {
+		List<Cuenta> datos = Arrays.asList(Datos.crearCuenta001().orElseThrow(), Datos.crearCuenta002().orElseThrow());
+		when(cuentaRepository.findAll()).thenReturn(datos);
+
+		List<Cuenta> cuentas = service.findAll();
+
+		assertFalse(cuentas.isEmpty());
+		assertEquals(2, cuentas.size());
+		assertTrue(cuentas.contains(crearCuenta002().orElseThrow()));
+
+		verify(cuentaRepository).findAll();
 	}
 }
