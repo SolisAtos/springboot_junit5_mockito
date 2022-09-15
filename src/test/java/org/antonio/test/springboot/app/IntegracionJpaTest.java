@@ -2,6 +2,7 @@ package org.antonio.test.springboot.app;
 
 import org.antonio.test.springboot.app.models.Cuenta;
 import org.antonio.test.springboot.app.repositories.CuentaRepository;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("integracion_jpa")
 @DataJpaTest
 public class IntegracionJpaTest {
     @Autowired
@@ -54,13 +56,13 @@ public class IntegracionJpaTest {
 
         // When
         Cuenta cuenta = cuentaRepository.save(cuentaPepe);
-//        Cuenta cuenta = cuentaRepository.findByPersona("Pepe").orElseThrow();
-//        Cuenta cuenta = cuentaRepository.findById(save.getId()).orElseThrow();
+        // Cuenta cuenta = cuentaRepository.findByPersona("Pepe").orElseThrow();
+        // Cuenta cuenta = cuentaRepository.findById(save.getId()).orElseThrow();
 
         // Then
         assertEquals("Pepe", cuenta.getPersona());
         assertEquals("3000", cuenta.getSaldo().toPlainString());
-//        assertEquals(3, cuenta.getId());
+        // assertEquals(3, cuenta.getId());
     }
 
     @Test
@@ -70,13 +72,13 @@ public class IntegracionJpaTest {
 
         // When
         Cuenta cuenta = cuentaRepository.save(cuentaPepe);
-        //Cuenta cuenta = cuentaRepository.findByPersona("Pepe").orElseThrow();
-//        Cuenta cuenta = cuentaRepository.findById(save.getId()).orElseThrow();
+        // Cuenta cuenta = cuentaRepository.findByPersona("Pepe").orElseThrow();
+        // Cuenta cuenta = cuentaRepository.findById(save.getId()).orElseThrow();
 
         // Then
         assertEquals("Pepe", cuenta.getPersona());
         assertEquals("3000", cuenta.getSaldo().toPlainString());
-//        assertEquals(3, cuenta.getId());
+        // assertEquals(3, cuenta.getId());
 
         // When
         cuenta.setSaldo(new BigDecimal("3800"));
@@ -96,7 +98,7 @@ public class IntegracionJpaTest {
         cuentaRepository.delete(cuenta);
 
         assertThrows(NoSuchElementException.class, () -> {
-//            cuentaRepository.findByPersona("John").orElseThrow();
+            // cuentaRepository.findByPersona("John").orElseThrow();
             cuentaRepository.findById(2L).orElseThrow();
         });
         assertEquals(1, cuentaRepository.findAll().size());

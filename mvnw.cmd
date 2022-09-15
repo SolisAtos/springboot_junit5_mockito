@@ -33,6 +33,7 @@
 @REM MAVEN_SKIP_RC - flag to disable loading of mavenrc files
 @REM ----------------------------------------------------------------------------
 
+%JAVA_HOME%="C:\Users\a875025\.vscode\extensions\redhat.java-1.10.0-win32-x64\jre\17.0.4-win32-x86_64"
 @REM Begin all REM lines with '@' in case MAVEN_BATCH_ECHO is 'on'
 @echo off
 @REM set title of command window
