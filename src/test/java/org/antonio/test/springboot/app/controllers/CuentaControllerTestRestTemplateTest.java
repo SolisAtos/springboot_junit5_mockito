@@ -1,6 +1,7 @@
 package org.antonio.test.springboot.app.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -138,7 +140,30 @@ public class CuentaControllerTestRestTemplateTest {
         assertEquals(3L, cuentaCreada.getId());
         assertEquals("Pepa", cuentaCreada.getPersona());
         assertEquals("3800", cuentaCreada.getSaldo().toPlainString());
+    }
 
+    @Test
+    @Order(5)
+    void testEliminar() {
+        ResponseEntity<Cuenta[]> respuesta = client.getForEntity(crearUri("/api/cuentas"), Cuenta[].class);
+        List<Cuenta> cuentas = Arrays.asList(respuesta.getBody());
+        assertEquals(3, cuentas.size());
+
+        // client.delete(crearUri("/api/cuentas/3"), Cuenta[].class);
+        Map<String, Long> pathVariables = new HashMap<>();
+        pathVariables.put("id", 3L);
+        ResponseEntity<Void> exchange = client.exchange(crearUri("/api/cuentas/{id}"), HttpMethod.DELETE, null,
+                Void.class, pathVariables);
+        assertEquals(HttpStatus.NO_CONTENT, exchange.getStatusCode());
+        assertFalse(exchange.hasBody());
+
+        respuesta = client.getForEntity(crearUri("/api/cuentas"), Cuenta[].class);
+        cuentas = Arrays.asList(respuesta.getBody());
+        assertEquals(2, cuentas.size());
+
+        ResponseEntity<Cuenta> respuestaDetalle = client.getForEntity(crearUri("/api/cuentas/3"), Cuenta.class);
+        assertEquals(HttpStatus.NOT_FOUND, respuestaDetalle.getStatusCode());
+        assertFalse(respuestaDetalle.hasBody());
     }
 
     private String crearUri(String uri) {
