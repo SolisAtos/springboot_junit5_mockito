@@ -37,7 +37,7 @@ public class CuentaController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("date", LocalDate.now().toString());
-        response.put("mensaje", "Transferencia realzada con éxito!");
+        response.put("mensaje", "Transferencia realizada con éxito!");
         response.put("transaccion", dto);
 
         return ResponseEntity.ok(response);
